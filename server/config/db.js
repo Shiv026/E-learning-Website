@@ -9,4 +9,13 @@ const db = mysql.createPool({
   port: DB_PORT || 3306,
 });
 
-export default db;
+const connectToDatabase = async () => {
+  try {
+    await db.query('SELECT 1');
+    console.log(' Connected to MySQL Database');
+  } catch (error) {
+    console.error('Error connecting to the Database: ', error.message);
+    process.exit(1); 
+  }
+};
+export default connectToDatabase;
