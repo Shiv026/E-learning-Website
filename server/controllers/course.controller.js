@@ -10,8 +10,7 @@ export const createCourse = async (req, res, next) => {
 
     //check if the course is already created by the creator
     const [prevCourse] = await db.query(
-      `
-      SELECT course_id from courses where title = ? AND created_by = ?`,
+      `SELECT course_id from courses where title = ? AND created_by = ?`,
       [title, created_by]
     );
 

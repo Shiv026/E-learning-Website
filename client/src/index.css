@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-display: "Merriweather", serif;
+  --font-sans: "Inter", sans-serif;
+
+  /* Light Mode Colors */
+  --color-primary: #2c7a7b;
+  --color-secondary: #f9fafb;
+  --color-accent: #f6ad55;
+  --color-text: #1a202c;
+  --color-muted: #718096;
+  --color-border: #e2e8f0;
+  --color-overlay: rgba(0, 0, 0, 0.2);
+
+  /* Dark Mode Colors (suffix -dark) */
+  --color-primary-dark: #81e6d9;
+  --color-secondary-dark: #1a202c;
+  --color-accent-dark: #f6ad55;
+  --color-text-dark: #edf2f7;
+  --color-muted-dark: #a0aec0;
+  --color-border-dark: #2d3748;
+  --color-overlay-dark: rgba(255, 255, 255, 0.05);
+
+  /* Easing */
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+
+  /* Breakpoints */
+  --breakpoint-3xl: 1920px;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+  }
+
+  .dark {
+    background-color: var(--color-secondary-dark);
+    color: var(--color-text-dark);
+  }
+}
