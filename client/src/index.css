@@ -13,6 +13,7 @@
   --color-text: #1a202c;
   --color-muted: #718096;
   --color-border: #e2e8f0;
+  --color-danger: rgba(255, 0, 0, 1);
   --color-overlay: rgba(0, 0, 0, 0.2);
 
   /* Dark Mode Colors (suffix -dark) */
