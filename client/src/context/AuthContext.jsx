@@ -15,11 +15,10 @@ export const AuthProvider = ({ children }) => {
       if (savedAuth) {
         try {
           const parsed = JSON.parse(savedAuth);
-
-          const res = await api.post(
-            "/users/role",
-            {},
-            { headers: { Authorization: `Bearer ${parsed.token}` } }
+          const res = await api.get(
+            "/users/role", {
+            headers: { Authorization: `Bearer ${parsed.token}` }
+          }
           );
 
           const updatedUser = { ...parsed, roles: res.data.roles };
@@ -36,7 +35,8 @@ export const AuthProvider = ({ children }) => {
     initAuth();
   }, []);
 
-  const login = (data) => {
+  const login = async (data) => {
+    console.log("Login - Data Received:", data);
     const authData = {
       token: data.token,
       userId: data.userData.userId,
@@ -45,7 +45,20 @@ export const AuthProvider = ({ children }) => {
       roles: []
     };
     setUser(authData);
-    localStorage.setItem("auth", JSON.stringify(authData));
+    try {
+      const res = await api.get("/users/role", {
+        headers: { Authorization: `Bearer ${data.token}` }
+      });
+
+      const updatedUser = { ...authData, roles: res.data.roles };
+      setUser(updatedUser);
+      localStorage.setItem("auth", JSON.stringify(updatedUser));
+      return updatedUser;
+    } catch (err) {
+      console.error("Failed to fetch roles after login:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
 

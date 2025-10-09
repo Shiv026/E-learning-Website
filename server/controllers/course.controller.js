@@ -30,7 +30,7 @@ export const createCourse = async (req, res, next) => {
     }
 
     console.log("Uploading file to Cloudinary...");
-    // Cloudinary gives you a `secure_url`
+    // Cloudinary gives a `secure_url`
     const thumbnailUrl = req.file.path;
     console.log("File uploaded, path:", thumbnailUrl);
     // handle default price safely
