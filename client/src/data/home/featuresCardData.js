@@ -1,36 +1,39 @@
-import { FaPlay, FaGraduationCap, FaUsers } from "react-icons/fa";
-import { MdQuiz, MdDashboard } from "react-icons/md";
+// src/data/home/featuresCardData.js
+
+// Import the icons you want to use for features
+import { MdVideoLibrary, MdQuiz, MdEmojiEvents, MdDashboard, MdPeople } from 'react-icons/md';
+import { FaRegComments } from 'react-icons/fa'; // Example of another icon library
 
 const featuresCardData = [
   {
-    icon: FaPlay,
-    iconColor: "text-primary",
-    title: "Easy Course Creation",
-    description: "Upload videos, PDFs, and assignments in a simple, intuitive interface.",
+    title: 'Easy Course Creation',
+    description: 'Upload videos, PDFs, and assignments in a simple, intuitive interface.',
+    icon: MdVideoLibrary, // Example icon for video/course creation
+    colorClass: 'text-green-500', // Example color
   },
   {
-    icon: MdQuiz,
-    iconColor: "text-accent",
-    title: "Interactive Quizzes",
-    description: "Keep learners engaged with quizzes and instant feedback.",
+    title: 'Interactive Quizzes',
+    description: 'Keep learners engaged with quizzes and instant feedback.',
+    icon: MdQuiz, // Example icon for quizzes
+    colorClass: 'text-sky-500', // Example color
   },
   {
-    icon: FaGraduationCap,
-    iconColor: "text-purple-600",
-    title: "Certificates of Completion",
-    description: "Reward learners with professional-looking certificates.",
+    title: 'Course Completion Certificates',
+    description: 'Reward learners with professional-looking certificates.',
+    icon: MdEmojiEvents, // Example icon for certificates/events
+    colorClass: 'text-yellow-500', // Example color
   },
   {
-    icon: MdDashboard,
-    iconColor: "text-orange-600",
-    title: "Learning Dashboard",
-    description: "Track progress, resume lessons, and never lose your place.",
+    title: 'Learning Dashboard',
+    description: 'Track progress, resume lessons, and never lose your place.',
+    icon: MdDashboard, // Example icon for dashboard
+    colorClass: 'text-teal-500', // Example color
   },
   {
-    icon: FaUsers,
-    iconColor: "text-red-600",
-    title: "Community & Discussions",
-    description: "Share insights, ask questions, and learn together."
+    title: 'Community & Discussions',
+    description: 'Share insights, ask questions, and learn together.',
+    icon: FaRegComments, // Example icon for community/discussions
+    colorClass: 'text-purple-500', // Example color
   },
 ];
 

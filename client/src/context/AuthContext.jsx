@@ -82,8 +82,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const res = await api.post(
-        "/users/role/become-instructor",
-        {},
+        "/users/role",
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
 

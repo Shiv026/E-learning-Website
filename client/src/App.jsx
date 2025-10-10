@@ -10,8 +10,6 @@ import SignUp from './pages/SignUp';
 import NotFound from './pages/NotFound';
 import { ToastContainer } from 'react-toastify';
 
-
-
 function App() {
   return (
     <>

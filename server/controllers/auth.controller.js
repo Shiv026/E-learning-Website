@@ -5,82 +5,68 @@ import { db } from "../database/db.js";
 import validateEmail from "../utils/validateEmail.js";
 
 export const signUp = async (req, res, next) => {
-  const connection = await db.getConnection();
   try {
-    await connection.beginTransaction();
-
     const { name, email, password } = req.body;
 
     // Required fields
     if (!name || !email || !password) {
-      const err = new Error("All fields are required");
-      err.statusCode = 400;
-      throw err;
+      return res.status(400).json({ message: "All fields are required" });
     }
-    // store the email in lowerCase
-    const LowerCaseEmail = email.toLowerCase();
+
+    const lowerCaseEmail = email.toLowerCase();
 
     // Email format validation
-    if (!validateEmail(LowerCaseEmail)) {
-      const err = new Error("Invalid email format");
-      err.statusCode = 400;
-      throw err;
+    if (!validateEmail(lowerCaseEmail)) {
+      return res.status(400).json({ message: "Invalid email format" });
     }
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Check if user already exists
-    const [existingUser] = await connection.query(
+    const [existingUser] = await db.query(
       "SELECT * FROM users WHERE email = ?",
-      [email]
+      [lowerCaseEmail]
     );
 
     if (existingUser.length > 0) {
-      const err = new Error("User already exists");
-      err.statusCode = 400;
-      throw err;
+      return res.status(400).json({ message: "User already exists" });
     }
 
     // Insert user
-    const [results] = await connection.query(
+    const [result] = await db.query(
       "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-      [name, LowerCaseEmail, hashedPassword]
+      [name, lowerCaseEmail, hashedPassword]
     );
 
-    const userId = results.insertId;
+    const userId = result.insertId;
 
     // Get student role ID
-    const [roleResult] = await connection.query(
+    const [roleResult] = await db.query(
       "SELECT role_id FROM roles WHERE role_name = ?",
       ["student"]
     );
     const roleId = roleResult[0].role_id;
 
-    // Assign student role to user
-    const [defaultRole] = await connection.query(
+    // Assign student role
+    const [userRole] = await db.query(
       "INSERT INTO user_roles (user_id, role_id) VALUES (?, ?)",
       [userId, roleId]
     );
-    if (defaultRole.affectedRows !== 1) {
-      const err = new Error("Failed to insert user role");
-      err.statusCode = 500;
-      throw err;
-    }
 
-    await connection.commit();
+    if (userRole.affectedRows !== 1) {
+      return res.status(500).json({ message: "Failed to assign user role" });
+    }
 
     return res.status(201).json({
       success: true,
-      message: "User registered successfully"
+      message: "User registered successfully",
     });
   } catch (error) {
-    await connection.rollback();
-    next(error); 
-  } finally {
-    connection.release();
+    next(error);
   }
 };
+
 
 export const signIn = async (req, res, next) => {
   try {
@@ -117,7 +103,7 @@ export const signIn = async (req, res, next) => {
       expiresIn: JWT_EXPIRES_IN,
     });
     const userData = {
-      userId : user.user_id,
+      userId: user.user_id,
       email: user.email,
       name: user.name
     }

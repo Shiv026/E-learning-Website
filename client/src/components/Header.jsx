@@ -8,7 +8,7 @@ const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const authButtonStyle = "px-5 py-2 rounded bg-primary text-white font-semibold hover:bg-accent transition"
+  const authButtonStyle = "px-5 py-2 rounded-3xl bg-primary text-white font-semi-bold hover:bg-accent transition"
   return (
     <>
       {/* Navbar */}
@@ -23,13 +23,13 @@ const Header = () => {
         </div>
 
         {/* Centered Links */}
-        <div className="hidden md:flex flex-1 justify-center gap-6 font-medium text-base lg:text-lg xl:text-xl items-center">
+        <div className="hidden md:flex flex-1 justify-center gap-6 font-medium font-display text-base lg:text-lg xl:text-xl items-center">
           <NavLink
             to="/"
             end
             className={({ isActive }) =>
               `transition-colors ${isActive
-                ? 'font-semibold text-primary'
+                ? 'font-semi-bold text-primary'
                 : 'text-muted hover:text-accent hover:scale-105'
               }`
             }
@@ -40,7 +40,7 @@ const Header = () => {
             to="/courses"
             className={({ isActive }) =>
               `transition-colors ${isActive
-                ? 'font-semibold text-primary'
+                ? 'font-semi-bold text-primary'
                 : 'text-muted hover:text-accent hover:scale-105'
               }`
             }
@@ -51,7 +51,7 @@ const Header = () => {
             to="/dashboard"
             className={({ isActive }) =>
               `transition-colors ${isActive
-                ? 'font-semibold text-primary'
+                ? 'font-semi-bold text-primary'
                 : 'text-muted hover:text-accent hover:scale-105'
               }`
             }
@@ -87,8 +87,7 @@ const Header = () => {
 
       {/* Sidebar */}
       <div
-        className={`md:hidden fixed top-0 left-0 z-60 h-full w-64 transform transition-transform duration-300 ease-linear shadow-lg bg-secondary text-text ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
+        className={`md:hidden fixed top-0 left-0 z-60 h-full w-64 transform transition duration-300 ease-linear shadow-lg bg-secondary text-text ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         {/* Sidebar Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
@@ -107,7 +106,7 @@ const Header = () => {
             end
             className={({ isActive }) =>
               `transition-colors ${isActive
-                ? 'font-semibold text-primary'
+                ? 'font-semi-bold text-primary'
                 : 'text-muted hover:text-primary'
               }`
             }
@@ -119,7 +118,7 @@ const Header = () => {
             to="/courses"
             className={({ isActive }) =>
               `transition-colors ${isActive
-                ? 'font-semibold text-primary'
+                ? 'font-semi-bold text-primary'
                 : 'text-muted hover:text-primary'
               }`
             }
@@ -131,7 +130,7 @@ const Header = () => {
             to="/dashboard"
             className={({ isActive }) =>
               `transition-colors ${isActive
-                ? 'font-semibold text-primary'
+                ? 'font-semi-bold text-primary'
                 : 'text-muted hover:text-primary'
               }`
             }

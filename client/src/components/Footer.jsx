@@ -8,14 +8,14 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-8">
           <div className="col-span-2">
-            <h3 className="text-2xl font-bold text-primary mb-4">Skill Shelf</h3>
+            <h3 className="text-2xl font-display font-bold text-primary mb-4">Skill Shelf</h3>
             <p className="text-gray-400">
               Learning made simple, for everyone.
             </p>
           </div>
-          
+
           <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <h4 className="font-display font-semi-bold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
                 <NavLink to="/courses" className="hover:text-white transition-colors">Courses</NavLink>
@@ -31,9 +31,9 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          
+
           <div>
-            <h4 className="font-semibold mb-4">Follow Us</h4>
+            <h4 className="font-display font-semi-bold mb-4">Follow Us</h4>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 <FaLinkedin className="h-6 w-6" />
@@ -44,7 +44,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
           <p>&copy; 2025 Skill Shelf. All rights reserved.</p>
         </div>

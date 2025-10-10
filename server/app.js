@@ -11,6 +11,8 @@ import courseRouter from "./routes/course.route.js";
 import lessonsRouter from "./routes/lessons.route.js";
 import enrollmentRouter from "./routes/enrollement.route.js";
 import roleRouter from "./routes/role.route.js";
+import dashboardRouter from "./routes/dashboard.route.js";
+
 
 const app = express();
 
@@ -26,6 +28,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/courses", courseRouter);
 app.use("/api/v1/lessons", lessonsRouter);
 app.use("/api/v1/enrollments", enrollmentRouter);
+app.use("/api/v1/dashboard", dashboardRouter);
 app.use(errorMiddleware);
 
 const startServer = async () => {
