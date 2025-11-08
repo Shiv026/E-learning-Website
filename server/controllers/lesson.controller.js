@@ -47,8 +47,17 @@ export const createLessons = async (req, res) => {
 // Get all lessons for a specific course
 export const getLessonsByCourse = async (req, res) => {
   const { courseId } = req.params;
-
+  const userId = req.user.user_id;
   try {
+    const [user] = await db.query(
+      "SELECT 1 FROM enrollments WHERE course_id = ? and user_id = ?",
+      [courseId, userId]
+    );
+
+    if (user.length == 0) {
+      return res.status(403).json({ message: "You are not enrolled in this course" });
+    }
+
     const [rows] = await db.query(
       "SELECT lesson_id, title FROM lessons WHERE course_id = ? ORDER BY created_at ASC",
       [courseId]
@@ -63,13 +72,20 @@ export const getLessonsByCourse = async (req, res) => {
 
 // Get details about a particular lesson
 export const getLessonByLessonId = async (req, res) => {
-  const { lessonId } = req.params;
-  if (!lessonId) {
-    return res.status(400).json({ message: "Click A Valid Lesson" });
-  }
+  const { courseId, lessonId } = req.params;
+  const userId = req.user.user_id;
+
   try {
+    const [user] = await db.query(
+      "SELECT course_id, user_id FROM enrollments WHERE course_id = ? and user_id = ?",
+      [courseId, userId]
+    );
+
+    if (user.length == 0) {
+      return res.status(403).json({ message: "You are not enrolled in this course" });
+    }
     const [result] = await db.query(
-      "SELECT description, video_url, created_at from lessons where lesson_id = ?", [lessonId]
+      "SELECT description, video_url, created_at from lessons where lesson_id = ? and course_id = ?", [lessonId, courseId]
     );
     if (result.length === 0) {
       return res.status(404).json({ message: "Lesson not found" });

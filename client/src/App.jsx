@@ -9,6 +9,7 @@ import CreateCourse from './pages/CreateCourse';
 import CreateLesson from './pages/CreateLesson';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import Error from './pages/Error';
 import NotFound from './pages/NotFound';
 import { ToastContainer } from 'react-toastify';
 
@@ -16,6 +17,7 @@ function App() {
   return (
     <>
       <Routes>
+
         <Route path="/" element={<MainLayout />} >
           <Route index element={<Home />} />
           <Route path="/courses" element={<Courses />} />
@@ -31,6 +33,8 @@ function App() {
           <Route path="/create-course" element={<CreateCourse />} />
           <Route path="/create-lesson" element={<CreateLesson />} />
         </Route>
+        <Route path="/errors" element={<Error />} />
+
       </Routes>
       <ToastContainer
         position="top-right"
