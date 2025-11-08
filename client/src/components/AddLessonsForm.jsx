@@ -1,16 +1,17 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom'; // To get the course-id from URL
+import { useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import api from "../utils/api";
 import LessonInput from './LessonInput';
+import AuthContext from '../context/AuthContext'; // <-- Added this import
 
 export default function AddLessonsForm() {
-  // Get the courseId from the URL (e.g., /upload-lessons/123)
+  const { user } = useContext(AuthContext);
+
   const { courseId } = useParams();
 
-  // State to hold an array of lesson objects
   const [lessons, setLessons] = useState([
     {
-      id: Date.now(), // Unique key for React
+      id: Date.now(),
       title: '',
       description: '',
       videoFile: null,
@@ -44,45 +45,53 @@ export default function AddLessonsForm() {
 
   // Remove a lesson card by its ID
   const handleRemoveLesson = (id) => {
-    // Prevent removing the last lesson
     if (lessons.length <= 1) return;
     setLessons((prevLessons) => prevLessons.filter((lesson) => lesson.id !== id));
   };
 
   // Handle the final form submission
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const formData = new FormData();
-
-  lessons.forEach((lesson) => {
-    formData.append("title", lesson.title);
-    formData.append("description", lesson.description);
-    if (lesson.videoFile) {
-      formData.append("videos", lesson.videoFile);
+    if (!user || !user.token) {
+      console.error("User not authenticated");
+      // You should probably show a toast message here
+      return;
     }
-  });
 
-  try {
-    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("courseId", courseId);
 
-    const response = await api.post(
-      `/lessons/${courseId}`,
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // ✅ REQUIRED
-        },
+    lessons.forEach((lesson) => {
+      formData.append("title", lesson.title);
+      formData.append("description", lesson.description);
+      if (lesson.videoFile) {
+        formData.append("videos", lesson.videoFile);
       }
-    );
+    });
 
-    console.log("LESSONS CREATED ✅", response.data);
-  } catch (err) {
-    console.error("Upload error ❌", err);
-  }
-};
+    try {
+      
+      const response = await api.post(
+        `/lessons/${courseId}`,
+        formData, 
+        {         
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
 
+      console.log("LESSONS CREATED ✅", response.data);
+      // TODO: Add a success toast and navigate away
 
+      
+
+    } catch (err) {
+      console.error("Upload error ❌", err);
+      // TODO: Add an error toast
+    }
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -93,7 +102,6 @@ const handleSubmit = async (e) => {
               Upload Course Lessons
             </h2>
 
-            {/* fetch already uploaded lessons and display*/}
             <p className="mt-2 text-sm text-gray-600">
               Add lessons to your course, each with a title and video file.
             </p>
