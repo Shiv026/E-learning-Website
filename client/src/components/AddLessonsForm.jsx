@@ -2,9 +2,13 @@ import { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import api from "../utils/api";
 import LessonInput from './LessonInput';
-import AuthContext from '../context/AuthContext'; // <-- Added this import
+import AuthContext from '../context/AuthContext'; 
+import LessonUploadSuccessful from "./LessonsUploadSuccessful"
+import { toast } from 'react-toastify';
 
 export default function AddLessonsForm() {
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const { user } = useContext(AuthContext);
 
   const { courseId } = useParams();
@@ -83,8 +87,15 @@ export default function AddLessonsForm() {
       );
 
       console.log("LESSONS CREATED ✅", response.data);
-      // TODO: Add a success toast and navigate away
-
+      // Add a success toast and navigate away
+      if (response.data.message === "Lessons created sucessfully") {
+     if (response.data.message === "Lessons created sucessfully") {
+        toast.success("Lessons uploaded successfully", {
+        position: "top-right",
+  });
+}
+      setIsSuccess(true); 
+    }
       
 
     } catch (err) {
@@ -93,12 +104,16 @@ export default function AddLessonsForm() {
     }
   };
 
+  if (isSuccess) {
+    return <LessonUploadSuccessful lessons={lessons}/>;
+  }
+
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <div className="bg-white p-8 rounded-lg shadow-md">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900">
+            <h2 className="text-3xl font-bold text-primary">
               Upload Course Lessons
             </h2>
 
@@ -125,15 +140,15 @@ export default function AddLessonsForm() {
               <button
                 type="button"
                 onClick={handleAddLesson}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary hover:cursor-pointer"
               >
                 Add More Lessons
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 hover:cursor-pointer"
               >
-                Upload Course
+                Upload Lesson
               </button>
             </div>
           </form>

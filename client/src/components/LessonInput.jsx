@@ -40,7 +40,7 @@ export default function LessonInput({
             onClick={() => onRemove(lesson.id)}
             className="text-gray-400 hover:text-red-600"
           >
-            <TrashIcon className="w-5 h-5" />
+            <TrashIcon className="w-5 h-7 hover:cursor-pointer" />
           </button>
         )}
       </div>

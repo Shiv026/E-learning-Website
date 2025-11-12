@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 // --- Icon (from heroicons) ---
 const CheckCircleIcon = () => (
@@ -17,28 +18,25 @@ const CheckCircleIcon = () => (
   </svg>
 );
 
-/**
- * LessonsUploadSuccessful Component
- *
- * Displays a success message and a summary of uploaded lessons.
- * @param {object} props
- * @param {Array<{id: string, title: string}>} props.lessons - An array of lesson objects.
- */
+
 function LessonsUploadSuccessful({ lessons }) {
-  return (
-    <div className="max-w-2xl p-8 mx-auto bg-white rounded-lg shadow-md">
+    const navigate = useNavigate();
+
+    return (
+    <div className="max-w-2xl p-8 mx-auto bg-white rounded-lg shadow-md mt-20">
       {/* Header Section */}
       <div className="flex flex-col items-start justify-between gap-4 mb-6 md:flex-row md:items-center">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">
+          <h1 className="text-2xl font-semibold text-primary">
             Lessons Uploaded Successfully!
           </h1>
-          <p className="mt-1 text-gray-600">
+          <p className="mt-1 text-muted font-medium">
             Your lessons are now live for students. Ready to create a quiz to
             test their knowledge?
           </p>
         </div>
-        <button className="flex items-center justify-center flex-shrink-0 gap-1.5 px-4 py-2 font-medium text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        <button className="flex items-center justify-center flex-shrink-0 gap-1.5 px-4 py-2 font-medium text-white bg-primary rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 hover:cursor-pointer" 
+        onClick={() => navigate("/quizzes/create-quiz")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -53,16 +51,16 @@ function LessonsUploadSuccessful({ lessons }) {
 
       {/* Uploaded Lessons Summary Card */}
       <div className="overflow-hidden border border-gray-200 rounded-lg">
-        <h3 className="px-6 py-4 text-lg font-medium text-gray-900 bg-gray-50">
+        <h3 className="px-6 py-4 text-lg font-semibold text-primary bg-gray-50">
           Uploaded Lessons Summary
         </h3>
 
         {/* Header Row */}
         <div className="flex justify-between px-6 py-3 border-b border-gray-200">
-          <span className="text-xs font-medium tracking-wider text-gray-500 uppercase">
+          <span className="text-xs font-semibold tracking-wider text-black uppercase">
             Lesson Title
           </span>
-          <span className="text-xs font-medium tracking-wider text-gray-500 uppercase">
+          <span className="text-xs font-semibold tracking-wider text-black  uppercase">
             Status
           </span>
         </div>
@@ -77,7 +75,7 @@ function LessonsUploadSuccessful({ lessons }) {
               <span className="text-sm font-medium text-gray-900">
                 {lesson.title}
               </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-green-800">
                 <CheckCircleIcon />
                 Uploaded
               </span>
@@ -89,20 +87,4 @@ function LessonsUploadSuccessful({ lessons }) {
   );
 }
 
-// --- Example Usage ---
-// This is how you would use the component in your application.
-
-export default function App() {
-  // This data would come from your server response
-  const uploadedLessons = [
-    { id: 'L1', title: 'Introduction to Programming' },
-    { id: 'L2', title: 'Data Structures' },
-    { id: 'L3', title: 'Algorithms' },
-  ];
-
-  return (
-    <div className="min-h-screen py-12 bg-gray-100">
-      <LessonsUploadSuccessful lessons={uploadedLessons} />
-    </div>
-  );
-}
+export default LessonsUploadSuccessful;
