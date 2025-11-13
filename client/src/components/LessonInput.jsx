@@ -1,22 +1,4 @@
-import React from 'react';
-
-// Inline SVG for the trash icon for simplicity
-const TrashIcon = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-    {...props}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12.54 0c-.265.006-.529.02-.793.042M4.772 5.79L2.75 3.772a3 3 0 00-4.242 4.242l2.02 2.02m15.02-4.242l-2.02-2.02a3 3 0 00-4.242-4.242l-2.02 2.02m7.287 4.242A48.09 48.09 0 0112 4.5c-2.291 0-4.545.16-6.75.472m13.5 0c-.376.02-.749.032-1.12.032h-1.5c-.371 0-.744-.012-1.12-.032"
-    />
-  </svg>
-);
+import { FiTrash2 } from "react-icons/fi";
 
 export default function LessonInput({
   lesson,
@@ -25,7 +7,7 @@ export default function LessonInput({
   onRemove,
   canRemove,
 }) {
-  // Create a unique ID for the file input to link with its label
+  // Creates unique ID for the file input to link with its label
   const fileInputId = `video-upload-${lesson.id}`;
 
   return (
@@ -39,8 +21,9 @@ export default function LessonInput({
             type="button"
             onClick={() => onRemove(lesson.id)}
             className="text-gray-400 hover:text-red-600"
+            aria-label={`Remove lesson ${index + 1}`}
           >
-            <TrashIcon className="w-5 h-7 hover:cursor-pointer" />
+            <FiTrash2 className="w-5 h-7 hover:cursor-pointer" />
           </button>
         )}
       </div>
@@ -106,9 +89,9 @@ export default function LessonInput({
               id={fileInputId}
               name="videoFile"
               type="file"
-              className="sr-only" // This hides the ugly default input
+              className="sr-only"
               onChange={(e) => onChange(lesson.id, e)}
-              accept="video/*" // Optional: restrict to video files
+              accept="video/*"
               required
             />
             <span className="text-sm text-gray-500">

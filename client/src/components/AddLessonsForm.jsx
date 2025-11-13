@@ -1,18 +1,15 @@
 import { useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import api from "../utils/api";
 import LessonInput from './LessonInput';
-import AuthContext from '../context/AuthContext'; 
-import LessonUploadSuccessful from "./LessonsUploadSuccessful"
+import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
 export default function AddLessonsForm() {
-  const [isSuccess, setIsSuccess] = useState(false);
-
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-
   const { courseId } = useParams();
-
+  console.log(courseId);
   const [lessons, setLessons] = useState([
     {
       id: Date.now(),
@@ -59,7 +56,6 @@ export default function AddLessonsForm() {
 
     if (!user || !user.token) {
       console.error("User not authenticated");
-      // You should probably show a toast message here
       return;
     }
 
@@ -75,38 +71,35 @@ export default function AddLessonsForm() {
     });
 
     try {
-      
       const response = await api.post(
         `/lessons/${courseId}`,
-        formData, 
-        {         
+        formData,
+        {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
         }
       );
 
-      console.log("LESSONS CREATED ✅", response.data);
+      console.log("LESSONS CREATED", response.data);
       // Add a success toast and navigate away
-      if (response.data.message === "Lessons created sucessfully") {
-     if (response.data.message === "Lessons created sucessfully") {
+      if (response.data.message === "Lessons created successfully") {
         toast.success("Lessons uploaded successfully", {
-        position: "top-right",
-  });
-}
-      setIsSuccess(true); 
-    }
-      
+          position: "top-right",
+        });
+        navigate(`/lessons-upload-success/${courseId}`, {
+          state: { lessons: response.data.lessons },
+        });
 
+      } else {
+        toast.warn(response.data.message || "An unknown error occurred.");
+      }
     } catch (err) {
-      console.error("Upload error ❌", err);
-      // TODO: Add an error toast
+      console.error("Upload error", err);
     }
   };
 
-  if (isSuccess) {
-    return <LessonUploadSuccessful lessons={lessons}/>;
-  }
+
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">

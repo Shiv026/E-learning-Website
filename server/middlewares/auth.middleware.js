@@ -10,9 +10,8 @@ const authorize = async (req, res, next) => {
     if (authorization && req.headers.authorization.startsWith("Bearer ")) {
       token = authorization.split(" ")[1];
     }
-
     if (!token) return res.status(401).json({ message: "Unauthorized Access" });
-
+    console.log('Failed Here');
     const decoded = jwt.verify(token, JWT_SECRET);
     const [user] = await db.query(
       "SELECT user_id, name, email, signup_date FROM users WHERE user_id = ?",

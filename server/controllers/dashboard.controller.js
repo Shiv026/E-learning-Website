@@ -50,7 +50,7 @@ export const instructorDashboard = async (req, res, next) => {
       ORDER BY c.created_at DESC`,
       [instructor_id]
     );
-
+    console.log(courses);
     return res.status(200).json({
       message: "Instructor courses fetched successfully",
       result: courses

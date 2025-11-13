@@ -1,4 +1,3 @@
-// components/StudentDashboard.jsx
 import { useEffect, useState } from "react";
 import api from "../utils/api";
 import Loader from "./Loader";

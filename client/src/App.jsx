@@ -3,24 +3,30 @@ import MainLayout from './layouts/MainLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Courses from './pages/Courses';
+import Lessons from './pages/Lessons';
 import Dashboard from './pages/Dashboard';
 import CreateCourse from './pages/createCourse';
+import QuizForm from './components/QuizForm';
+import GiveQuiz from './components/GiveQuiz';
+import QuizQuestions from './components/QuizQuestions';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Error from './pages/Error';
 import NotFound from './pages/NotFound';
-import { ToastContainer } from 'react-toastify';
 import AddLessonsForm from './components/AddLessonsForm';
-import QuizForm from './components/QuizForm';
+import LessonsUploadSuccessful from './components/LessonsUploadSuccessful';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
     <>
       <Routes>
-
         <Route path="/" element={<MainLayout />} >
           <Route index element={<Home />} />
           <Route path="/courses" element={<Courses />} />
+
+          <Route path="/quizzes" element={< QuizQuestions />} />
+          <Route path="/quizzes/:courseId" element={< GiveQuiz />} />
 
           <Route path="/courses/:courseId/lessons" element={<Lessons />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -31,9 +37,12 @@ function App() {
         </Route>
         <Route element={<ProtectedRoute roles={['instructor']} />}>
           <Route path="/create-course" element={<CreateCourse />} />
-          <Route path="/lessons/:courseId" element={<AddLessonsForm />} />
-          <Route path="/quizzes/create-quiz" element={<QuizForm />} />
+          <Route path="/lessons/add-lessons/:courseId" element={<AddLessonsForm />} />
+          <Route path="/quizzes/create-quiz/:courseId" element={<QuizForm />} />
+          <Route path="/lessons-upload-success/:courseId" element={<LessonsUploadSuccessful />} />
+
         </Route>
+        <Route path="/errors" element={<Error />} />
       </Routes>
       <ToastContainer
         position="top-right"
@@ -50,6 +59,4 @@ function App() {
     </>
   )
 }
-
 export default App
-
